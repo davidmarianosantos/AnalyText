@@ -1,0 +1,103 @@
+@import "tailwindcss";
+
+/* ──────────────────────────────────────────────────────────────────────────
+   AnalyText Design Tokens
+   Paleta: tons de azul profundo, inspirada em Linear / Notion / Arc / Figma.
+   Tudo em CSS vars para que os componentes nunca usem cor "crua".
+   ────────────────────────────────────────────────────────────────────────── */
+
+:root {
+  /* Superfícies — do mais profundo ao mais claro */
+  --surface-0: #0a1322;   /* fundo da janela */
+  --surface-1: #0e1b30;   /* sidebar */
+  --surface-2: #13233d;   /* cards / painéis */
+  --surface-3: #19304f;   /* cards elevados / hover */
+  --surface-4: #1f3a5e;   /* itens ativos */
+
+  --border-subtle: #1d2c45;
+  --border-default: #28406899;
+  --border-strong: #335480;
+
+  /* Texto */
+  --text-primary: #eef3fb;
+  --text-secondary: #aebcd6;
+  --text-tertiary: #6f84a8;
+  --text-disabled: #4a5b7a;
+
+  /* Azul de marca — usado em CTAs, seleção, foco, grafo */
+  --brand-50:  #eef5ff;
+  --brand-100: #d9e8ff;
+  --brand-200: #b3d1ff;
+  --brand-300: #82b3ff;
+  --brand-400: #4f8fff;
+  --brand-500: #2f6fed;  /* cor primária de ação */
+  --brand-600: #1e54c7;
+  --brand-700: #163f9c;
+  --brand-800: #122f72;
+  --brand-900: #0e2350;
+
+  /* Azuis de suporte para categorias/comunidades do grafo (todos na família azul,
+     variando em matiz para diferenciar sem sair da identidade visual) */
+  --cat-1: #2f6fed; /* azul royal */
+  --cat-2: #1aa3b0; /* azul petróleo */
+  --cat-3: #5b6cf2; /* azul-violeta */
+  --cat-4: #2596be; /* azul céu profundo */
+  --cat-5: #0f8f8f; /* azul-esverdeado */
+  --cat-6: #3454a8; /* azul indigo */
+  --cat-7: #19b3d6; /* azul claro vivo */
+  --cat-8: #6b4fd6; /* azul-púrpura (acento raro) */
+
+  /* Semântica */
+  --success: #19b38a;
+  --warning: #d6a93b;
+  --danger:  #e0556f;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 22px;
+
+  --shadow-soft: 0 1px 2px rgba(0,0,0,.4), 0 8px 24px -8px rgba(0,20,60,.55);
+  --shadow-pop:  0 4px 16px rgba(0,0,0,.45), 0 16px 48px -12px rgba(0,30,80,.6);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  background: var(--surface-0);
+  color: var(--text-primary);
+  font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+  font-size: 14px;
+  overflow: hidden;
+}
+
+* { box-sizing: border-box; }
+
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 8px;
+  border: 2px solid transparent;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--brand-600); }
+
+/* Foco acessível, sutil e consistente com a marca */
+:focus-visible {
+  outline: 2px solid var(--brand-500);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Utilitário para "vidro" sutil em painéis flutuantes (estilo Arc/Raycast) */
+.glass {
+  background: color-mix(in srgb, var(--surface-2) 88%, transparent);
+  backdrop-filter: blur(14px) saturate(140%);
+  border: 1px solid var(--border-subtle);
+}
+
+.scrollbar-thin::-webkit-scrollbar { width: 6px; }

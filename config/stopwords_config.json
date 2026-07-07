@@ -1,0 +1,29 @@
+{
+  "stopwords_extras": [
+    "pra", "pro", "pros", "pras", "né", "tá", "aí", "ah", "eh", "oi",
+    "hein", "viu", "oxe", "poxa", "eita", "assim", "então", "tipo",
+    "enfim", "bom", "pronto", "olha", "olhar", "vamos", "deixa", "deixar",
+    "eu", "tu", "ele", "ela", "nós", "vocês", "eles", "elas",
+    "meu", "minha", "seu", "sua", "nosso", "nossa",
+    "isso", "esse", "essa", "isto", "este", "esta",
+    "aqui", "ali", "lá", "cá",
+    "ser", "estar", "ter", "ir", "vir", "fazer", "fiz",
+    "ficar", "poder", "querer", "saber", "dever", "haver", "dar", "pôr",
+    "porque", "mas", "porém", "logo", "portanto",
+    "quando", "como", "onde", "que", "qual", "quem",
+    "além", "através", "segundo", "junto", "dentro", "fora",
+    "após", "ante", "até", "desde", "entre", "sobre", "sob",
+    "coisa", "coisas", "gente", "pessoa", "pessoas", "vez", "vezes",
+    "ano", "anos", "dia", "dias", "hora", "horas", "momento",
+    "parte", "lado", "caso", "forma", "modo", "jeito",
+    "outro", "outra", "outros", "outras", "mesmo", "mesma",
+    "mais", "menos", "bem", "mal", "muito", "pouco",
+    "já", "ainda", "também", "sempre", "nunca", "jamais",
+    "só", "apenas", "sim", "não"
+  ],
+  "palavras_protegidas": [],
+  "siglas_manter": [],
+  "excluir_pessoas": true,
+  "excluir_locais": false,
+  "excluir_organizacoes": false
+}

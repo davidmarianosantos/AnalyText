@@ -1,0 +1,25 @@
+{
+  "_comentario": "Arquivo de configuração dos scripts de análise. Editável pela UI.",
+
+  "entrevistados": ["Lívia"],
+  "_entrevistados_doc": "Lista de nomes EXATOS dos falantes a analisar. Se vazio, aplica a regra de 'entrevistadores'.",
+
+  "entrevistadores": ["Verônica", "Luisa"],
+  "_entrevistadores_doc": "Falantes a EXCLUIR (condutores da entrevista). Se ambas as listas estiverem vazias, analisa todos os falantes do CSV.",
+
+  "analise_padroes": {
+    "top_n_freq": 20,
+    "_top_n_freq_doc": "Quantos termos mostrar no ranking de frequência.",
+    "top_n_ngram": 15,
+    "_top_n_ngram_doc": "Quantos n-gramas mostrar.",
+    "gerar_nuvem": true,
+    "_gerar_nuvem_doc": "true/false — gera nuvem de palavras por entrevistado."
+  },
+
+  "clustering": {
+    "top_termos_grafo": 35,
+    "_top_termos_grafo_doc": "Quantos termos entram no grafo de similitude. Reduza se o grafo ficar poluído.",
+    "min_cooc": 3,
+    "_min_cooc_doc": "Co-ocorrência mínima para criar aresta. Aumente para manter só conexões fortes."
+  }
+}
