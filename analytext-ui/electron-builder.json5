@@ -1,15 +1,20 @@
 // @see - https://www.electron.build/configuration/configuration
 {
   "$schema": "https://raw.githubusercontent.com/electron-userland/electron-builder/master/packages/app-builder-lib/scheme.json",
-  "appId": "YourAppID",
+  "appId": "com.uesc.analytext",
   "asar": true,
-  "productName": "YourAppName",
+  "productName": "AnalyText",
   "directories": {
     "output": "release/${version}"
   },
   "files": [
     "dist",
     "dist-electron"
+  ],
+  "extraResources": [
+  { "from": "resources/python", "to": "python" },
+  { "from": "../analysis", "to": "scripts/analysis" },
+  { "from": "../preprocessing", "to": "scripts/preprocessing" }
   ],
   "mac": {
     "target": [
@@ -18,6 +23,7 @@
     "artifactName": "${productName}-Mac-${version}-Installer.${ext}"
   },
   "win": {
+    "icon": "public/icon.ico",
     "target": [
       {
         "target": "nsis",

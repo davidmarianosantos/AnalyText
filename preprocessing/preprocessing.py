@@ -81,7 +81,7 @@ def carregar_config(caminho: str) -> dict:
     default = {
         "stopwords_extras": [],
         "palavras_protegidas": [],   # nunca remover, mesmo se NER marcar como nome
-        "siglas_manter": [],         # siglas que devem permanecer (ex: ONG, sigla de instituição)
+        "remover_siglas": False,     # por padrão siglas são mantidas
         "excluir_pessoas": True,
         "excluir_locais": False,
         "excluir_organizacoes": False,
@@ -170,7 +170,6 @@ def lema_seguro(token) -> str:
 def preprocessar(doc, config: dict, entidades_excluir: set[str]) -> str:
     stopwords_extras = set(config.get("stopwords_extras", []))
     palavras_protegidas = set(config.get("palavras_protegidas", []))
-    siglas_manter = set(config.get("siglas_manter", []))
 
     tokens = []
     for token in doc:
@@ -198,9 +197,9 @@ def preprocessar(doc, config: dict, entidades_excluir: set[str]) -> str:
         if lema in entidades_excluir or texto_original in entidades_excluir:
             continue
 
-        # siglas: mantém só as configuradas, descarta outras maiúsculas
+        # siglas: por padrão são mantidas; só remove se remover_siglas=True na config
         if token.text.isupper() and len(token.text) <= 5:
-            if lema not in siglas_manter and texto_original not in siglas_manter:
+            if config.get("remover_siglas", False):
                 continue
 
         tokens.append(lema)

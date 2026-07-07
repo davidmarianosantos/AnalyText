@@ -15,6 +15,7 @@ interface AppState {
   definirProjeto: (p: Project | null) => void
   definirProgresso: (p: ProgressoPipeline | null) => void
   definirProjetoTemEntrevista: (valor: boolean) => void
+  definirProjetoTemResultados: (valor: boolean) => void
 }
 
 export const useAppStore = create<AppState>((set) => ({
@@ -54,4 +55,5 @@ export const useAppStore = create<AppState>((set) => ({
 
   definirProgresso: (p) => set({ progresso: p }),
   definirProjetoTemEntrevista: (valor) => set({ projetoTemEntrevista: valor }),
+  definirProjetoTemResultados: (valor) => set({ projetoTemResultados: valor }),
 }))

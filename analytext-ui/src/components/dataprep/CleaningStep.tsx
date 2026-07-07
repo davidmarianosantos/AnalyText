@@ -7,7 +7,7 @@ import type { ConfiguracaoLimpeza } from '@/types'
 const VAZIO: ConfiguracaoLimpeza = {
   palavrasIgnoradas: [],
   palavrasProtegidas: [],
-  siglasManter: [],
+  removerSiglas: false,
   removerNomesDePessoas: true,
   removerLocais: false,
   removerOrganizacoes: false,
@@ -58,13 +58,6 @@ export default function CleaningStep({ onConcluir, concluido }: Props) {
           onChange={(itens) => setCfg({ ...cfg, palavrasProtegidas: itens })}
         />
 
-        <ListaEditavel
-          titulo="Siglas a manter"
-          ajuda="Siglas de instituições, diagnósticos ou conceitos relevantes para a sua análise."
-          itens={cfg.siglasManter}
-          onChange={(itens) => setCfg({ ...cfg, siglasManter: itens })}
-        />
-
         <div className="p-4 rounded-xl flex flex-col gap-3" style={{ background: 'var(--surface-2)', border: '1px solid var(--border-subtle)' }}>
           <div className="flex items-center gap-2">
             <Info size={13} style={{ color: 'var(--text-tertiary)' }} />
@@ -86,6 +79,11 @@ export default function CleaningStep({ onConcluir, concluido }: Props) {
             label="Nomes de instituições e organizações"
             checked={cfg.removerOrganizacoes}
             onChange={(v) => setCfg({ ...cfg, removerOrganizacoes: v })}
+          />
+          <Toggle
+            label="Siglas (ex: ONG, PEI, AEE) — mantidas por padrão"
+            checked={cfg.removerSiglas}
+            onChange={(v) => setCfg({ ...cfg, removerSiglas: v })}
           />
         </div>
 

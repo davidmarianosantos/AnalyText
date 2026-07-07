@@ -19,7 +19,7 @@ export interface Participante {
 export interface ConfiguracaoLimpeza {
   palavrasIgnoradas: string[]      // stopwords_extras
   palavrasProtegidas: string[]     // palavras_protegidas
-  siglasManter: string[]           // siglas_manter
+  removerSiglas: boolean           // remover_siglas (por padrão false — siglas são mantidas)
   removerNomesDePessoas: boolean   // excluir_pessoas
   removerLocais: boolean           // excluir_locais
   removerOrganizacoes: boolean     // excluir_organizacoes

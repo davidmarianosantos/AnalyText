@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain, dialog, shell, protocol, net } from 'electron'
+import { app, BrowserWindow, ipcMain, dialog, shell, protocol, net, Menu } from 'electron'
 import { createRequire } from 'node:module'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
@@ -47,6 +47,7 @@ function createWindow() {
       nodeIntegration: false,
     },
   })
+  Menu.setApplicationMenu(null)
 
   if (VITE_DEV_SERVER_URL) {
     win.loadURL(VITE_DEV_SERVER_URL)
@@ -107,7 +108,7 @@ function garantirEstruturaProjeto(caminho: string) {
     fs.writeFileSync(swPath, JSON.stringify({
       stopwords_extras: [],
       palavras_protegidas: [],
-      siglas_manter: [],
+      remover_siglas: false,
       excluir_pessoas: true,
       excluir_locais: false,
       excluir_organizacoes: false,
@@ -234,14 +235,14 @@ ipcMain.handle('obterConfiguracaoLimpeza', (_e, projetoId: string) => {
   if (!caminho) return {}
   const swPath = path.join(caminho, 'config', 'stopwords_config.json')
   if (!fs.existsSync(swPath)) return {
-    palavrasIgnoradas: [], palavrasProtegidas: [], siglasManter: [],
+    palavrasIgnoradas: [], palavrasProtegidas: [], removerSiglas: false,
     removerNomesDePessoas: true, removerLocais: false, removerOrganizacoes: false,
   }
   const raw = JSON.parse(fs.readFileSync(swPath, 'utf-8'))
   return {
     palavrasIgnoradas: raw.stopwords_extras ?? [],
     palavrasProtegidas: raw.palavras_protegidas ?? [],
-    siglasManter: raw.siglas_manter ?? [],
+    removerSiglas: raw.remover_siglas ?? false,
     removerNomesDePessoas: raw.excluir_pessoas ?? true,
     removerLocais: raw.excluir_locais ?? false,
     removerOrganizacoes: raw.excluir_organizacoes ?? false,
@@ -255,7 +256,7 @@ ipcMain.handle('salvarConfiguracaoLimpeza', (_e, projetoId: string, cfg: any) =>
   fs.writeFileSync(swPath, JSON.stringify({
     stopwords_extras: cfg.palavrasIgnoradas,
     palavras_protegidas: cfg.palavrasProtegidas,
-    siglas_manter: cfg.siglasManter,
+    remover_siglas: cfg.removerSiglas,
     excluir_pessoas: cfg.removerNomesDePessoas,
     excluir_locais: cfg.removerLocais,
     excluir_organizacoes: cfg.removerOrganizacoes,

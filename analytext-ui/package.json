@@ -1,8 +1,10 @@
 {
   "name": "analytext-ui",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
+  "description": "Ferramenta de análise textual e padrões discursivos",
+  "author": "David",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build && electron-builder",

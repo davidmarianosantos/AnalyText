@@ -18,7 +18,7 @@ const PASSOS = [
 ] as const
 
 export default function DataPrepView() {
-  const { projetoAtual, projetoTemEntrevista, irPara, definirProgresso, definirProjetoTemEntrevista } = useAppStore()
+  const { projetoAtual, projetoTemEntrevista, irPara, definirProgresso, definirProjetoTemEntrevista, definirProjetoTemResultados } = useAppStore()
 
   // Inicializa já no estado correto: se projetoTemEntrevista é true no momento
   // da montagem (ex: usuário voltou de Resultados na mesma sessão), não precisa
@@ -53,6 +53,7 @@ export default function DataPrepView() {
     try {
       await window.api.executarAnalises(projetoAtual.id)
       definirProjetoTemEntrevista(true)
+      definirProjetoTemResultados(true)
       irPara('resultados')
     } finally {
       setExecutando(false)
