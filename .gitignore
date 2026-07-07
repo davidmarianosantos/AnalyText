@@ -1,2 +1,4 @@
 venv/
 outputs/
+./analytext-ui/resources/python/
+./analytext-ui/resources/python/Lib/site-packages/
