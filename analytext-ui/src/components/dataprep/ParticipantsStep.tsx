@@ -12,7 +12,7 @@ interface Props {
   concluido: boolean
 }
 
-export default function ParticipantsStep({ onConcluir, concluido }: Props) {
+export default function ParticipantsStep({ onConcluir }: Props) {
   const { projetoAtual } = useAppStore()
   const [participantes, setParticipantes] = useState<Participante[]>([])
   const [salvando, setSalvando] = useState(false)

@@ -18,7 +18,7 @@ interface Props {
   concluido: boolean
 }
 
-export default function CleaningStep({ onConcluir, concluido }: Props) {
+export default function CleaningStep({ onConcluir }: Props) {
   const { projetoAtual } = useAppStore()
   const [cfg, setCfg] = useState<ConfiguracaoLimpeza>(VAZIO)
   const [salvando, setSalvando] = useState(false)

@@ -1,5 +1,4 @@
 import { app, protocol, BrowserWindow, net, ipcMain, dialog, shell, Menu } from "electron";
-import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 import fs from "node:fs";
@@ -146,7 +145,6 @@ function runPythonStep(scriptRelativo, cwdProjeto, onProgress) {
     proc.on("error", (err) => reject(err));
   });
 }
-createRequire(import.meta.url);
 const __dirname$1 = path.dirname(fileURLToPath(import.meta.url));
 process.env.APP_ROOT = path.join(__dirname$1, "..");
 const VITE_DEV_SERVER_URL = process.env["VITE_DEV_SERVER_URL"];

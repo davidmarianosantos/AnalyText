@@ -82,7 +82,6 @@ export default function DataPrepView() {
 
         <div className="flex flex-col gap-1">
           {PASSOS.map((passo, idx) => {
-            const Icon = passo.icon
             const ativo = passoAtual === idx
             const concluido = concluidos.has(idx)
             const acessivel = isAcessivel(idx)

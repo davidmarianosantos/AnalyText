@@ -75,16 +75,16 @@ export default function SimilarityGraph({ projetoId, participante }: { projetoId
       .attr('stroke-opacity', (d) => Math.min(0.65, 0.15 + d.peso * 0.05))
       .attr('stroke-width', (d) => Math.min(3, 0.6 + d.peso * 0.25))
 
-    const node = gNodes.selectAll('g.no')
+    const node = gNodes.selectAll<SVGGElement, SimNode>('g.no')
       .data(nodes)
       .join('g')
       .attr('class', 'no')
       .style('cursor', 'pointer')
       .call(
         d3.drag<SVGGElement, SimNode>()
-          .on('start', (ev, d) => { d.fx = d.x; d.fy = d.y })
+          .on('start', (_ev, d) => { d.fx = d.x; d.fy = d.y })
           .on('drag', (ev, d) => { d.fx = ev.x; d.fy = ev.y })
-          .on('end', (ev, d) => { d.fx = null; d.fy = null }),
+          .on('end', (_ev, d) => { d.fx = null; d.fy = null }),
       )
       .on('click', (_ev, d) => setNoSelecionado(d))
 

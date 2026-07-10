@@ -34,7 +34,7 @@ REGRAS = [
     ("04_comunidades_termos.csv", "relacoes", "Conceitos relacionados (tabela)"),
 
     ("04_grafo_similitude.png",   "grafo_similitude", "Grafo de similitude"),
-    ("04_grafo_dados.json",       "grafo_similitude", "Dados interativos do grafo"),
+    ("05_grafo_dados.json",       "grafo_similitude", "Dados interativos do grafo"),
 ]
 
 CATEGORIAS = ["frequencia", "expressoes", "categorias_tematicas", "relacoes", "grafo_similitude"]

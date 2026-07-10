@@ -1,0 +1,16 @@
+# Dependências dos scripts de análise do AnalyText.
+# Versões fixadas nas mesmas do ambiente validado (Python 3.9).
+# Usado tanto pelo venv de desenvolvimento quanto pelo script
+# analytext-ui/scripts/setup-python-embutido.ps1 (Python embutido do app).
+
+numpy==1.26.4
+pandas==2.3.3
+matplotlib==3.9.4
+networkx==3.2.1
+scipy==1.13.1
+scikit-learn==1.6.1
+wordcloud==1.9.6
+spacy==3.7.5
+
+# Modelo de língua portuguesa do spaCy (lematização, POS, NER e vetores)
+pt_core_news_lg @ https://github.com/explosion/spacy-models/releases/download/pt_core_news_lg-3.7.0/pt_core_news_lg-3.7.0-py3-none-any.whl

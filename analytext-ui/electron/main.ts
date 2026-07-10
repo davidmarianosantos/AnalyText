@@ -1,5 +1,4 @@
 import { app, BrowserWindow, ipcMain, dialog, shell, protocol, net, Menu } from 'electron'
-import { createRequire } from 'node:module'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 import fs from 'node:fs'
@@ -13,7 +12,6 @@ import {
 } from './projectStore'
 import { runPythonStep, PYTHON_STEPS } from './pythonBridge'
 
-const require = createRequire(import.meta.url)
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 process.env.APP_ROOT = path.join(__dirname, '..')
@@ -89,31 +87,6 @@ app.whenReady().then(() => {
 function projetoCaminho(id: string): string | null {
   const p = getProject(id)
   return p ? p.caminho : null
-}
-
-function garantirEstruturaProjeto(caminho: string) {
-  for (const sub of ['data', 'config', 'outputs', 'preprocessing', 'analysis']) {
-    fs.mkdirSync(path.join(caminho, sub), { recursive: true })
-  }
-  // Config padrão se não existir
-  const cfgPath = path.join(caminho, 'config', 'analise_config.json')
-  if (!fs.existsSync(cfgPath)) {
-    fs.writeFileSync(cfgPath, JSON.stringify({
-      entrevistados: [],
-      entrevistadores: [],
-    }, null, 2), 'utf-8')
-  }
-  const swPath = path.join(caminho, 'config', 'stopwords_config.json')
-  if (!fs.existsSync(swPath)) {
-    fs.writeFileSync(swPath, JSON.stringify({
-      stopwords_extras: [],
-      palavras_protegidas: [],
-      remover_siglas: false,
-      excluir_pessoas: true,
-      excluir_locais: false,
-      excluir_organizacoes: false,
-    }, null, 2), 'utf-8')
-  }
 }
 
 // ─── IPC: Projetos ──────────────────────────────────────────────────────────

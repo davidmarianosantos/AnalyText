@@ -31,6 +31,13 @@ export default function ProjectsView() {
     }
   }
 
+  async function abrir(p: Project) {
+    // registra a abertura no backend (atualiza 'abertoEm' e a ordenação
+    // dos recentes) sem tocar na data de criação, que a sidebar exibe
+    const atualizado = await window.api.abrirProjeto(p.id)
+    definirProjeto(atualizado ?? p)
+  }
+
   async function renomear(id: string, novoNome: string) {
     await window.api.renomearProjeto(id, novoNome)
     recarregar()
@@ -67,9 +74,9 @@ export default function ProjectsView() {
             </button>
           ) : (
             <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.15, ease: 'easeOut' }}
               className="p-5 rounded-2xl"
               style={{ background: 'var(--surface-2)', border: '1px solid var(--border-default)' }}
             >
@@ -90,8 +97,9 @@ export default function ProjectsView() {
                   style={{ background: 'var(--brand-500)' }}>
                   Criar
                 </button>
-                <button onClick={() => { setCriando(false); setErro('') }} className="px-3.5 py-2.5 rounded-lg text-[13.5px]"
-                  style={{ color: 'var(--text-tertiary)' }}>
+                <button onClick={() => { setCriando(false); setErro('') }}
+                  className="px-3.5 py-2.5 rounded-lg text-[13.5px] font-medium transition-colors hover:opacity-90"
+                  style={{ background: 'var(--surface-3)', border: '1px solid var(--border-default)', color: 'var(--text-secondary)' }}>
                   Cancelar
                 </button>
               </div>
@@ -124,7 +132,7 @@ export default function ProjectsView() {
                   <CardProjeto
                     key={p.id}
                     projeto={p}
-                    onAbrir={() => definirProjeto(p)}
+                    onAbrir={() => abrir(p)}
                     onRenomear={(nome) => renomear(p.id, nome)}
                     onExcluir={() => excluir(p.id)}
                   />

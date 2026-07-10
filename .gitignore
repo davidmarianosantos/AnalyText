@@ -1,4 +1,13 @@
+# Ambientes Python
 venv/
+__pycache__/
+*.pyc
+
+# Dados de entrevistas — NUNCA versionar (privacidade dos participantes)
+data/
+
+# Saídas geradas pelas análises (reproduzíveis a partir dos dados)
 outputs/
-./analytext-ui/resources/python/
-./analytext-ui/resources/python/Lib/site-packages/
+
+# Ferramentas locais
+.claude/

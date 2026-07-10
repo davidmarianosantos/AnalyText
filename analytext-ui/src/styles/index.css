@@ -93,6 +93,14 @@ html, body, #root {
   border-radius: 4px;
 }
 
+/* Placeholders bem mais discretos que o texto digitado — deixa claro
+   que o conteúdo é apenas um exemplo */
+input::placeholder,
+textarea::placeholder {
+  color: var(--text-tertiary);
+  opacity: 1; /* Firefox aplica opacidade extra por padrão */
+}
+
 /* Utilitário para "vidro" sutil em painéis flutuantes (estilo Arc/Raycast) */
 .glass {
   background: color-mix(in srgb, var(--surface-2) 88%, transparent);

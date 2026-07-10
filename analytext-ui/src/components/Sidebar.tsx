@@ -1,5 +1,4 @@
 import { FolderKanban, FileSpreadsheet, Share2, ChevronLeft, Sparkles, CalendarDays } from 'lucide-react'
-import clsx from 'clsx'
 import { useAppStore, type Secao } from '@/state/useAppStore'
 
 const ITENS: { id: Secao; label: string; icon: typeof FolderKanban; precisaProjeto: boolean }[] = [

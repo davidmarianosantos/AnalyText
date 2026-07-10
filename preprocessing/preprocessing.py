@@ -39,7 +39,49 @@ INPUT_TXT     = "./data/entrevista.txt"
 OUTPUT_CSV    = "./data/entrevista_processada.csv"
 CONFIG_PATH   = "./config/stopwords_config.json"
 
+# Advérbios ficam de fora: em entrevistas eles são quase só marcação de
+# discurso (hoje, aí, assim, realmente) e não carregam tópico.
 POS_PERMITIDOS = {"NOUN", "ADJ", "VERB"}
+
+# Verbos semanticamente vazios — passam pelo filtro de POS mas nao
+# carregam conteudo relevante para analise qualitativa de entrevistas.
+# Vale para qualquer tópico de entrevista: são verbos de apoio, de
+# discurso (o ato de conversar), de afeto genérico e de movimento.
+VERBOS_VAZIOS = {
+    # verbos-suporte / delexicalizados
+    "ser", "estar", "tar", "ter", "fazer", "ir", "vir", "ver",
+    "dar", "ficar", "poder", "querer", "precisar", "dever",
+    "deixar", "passar", "trazer", "por", "colocar", "botar",
+    "pegar", "tirar", "levar", "mandar", "receber", "usar", "mexer",
+    # verbos de discurso/cognição genérica (mecânica da conversa)
+    "falar", "dizer", "conversar", "perguntar", "achar", "pensar",
+    "saber", "conhecer", "entender", "lembrar", "esquecer", "olhar",
+    # afeto genérico (sentimento sem tópico)
+    "gostar", "amar", "adorar", "odiar", "preferir",
+    # movimento genérico
+    "chegar", "sair", "voltar", "entrar", "andar",
+    # aspecto/modalidade
+    "comecar", "começar", "continuar", "acabar", "terminar",
+    "tentar", "conseguir", "esperar", "acontecer", "parecer",
+    "existir", "parar", "virar", "valer", "caber",
+}
+
+# Palavras genéricas de qualquer tópico (substantivos "curinga",
+# adjetivos avaliativos, marcadores de discurso) — frequentes em toda
+# fala espontânea e sem valor para identificar os temas da entrevista.
+PALAVRAS_GENERICAS = {
+    # substantivos curinga
+    "coisa", "coisinha", "gente", "pessoa", "pessoal", "negócio",
+    "troço", "exemplo", "vez", "jeito", "maneira", "tipo", "parte",
+    "lado", "meio", "resto", "monte", "tanto", "pouquinho",
+    "verdade", "mentira", "fato",
+    # adjetivos avaliativos / tamanho genérico
+    "bom", "ruim", "legal", "ótimo", "péssimo", "maravilhoso",
+    "perfeito", "lindo", "bonito", "bonitinho", "feio", "bacana",
+    "incrível", "grande", "pequeno", "novo", "velho", "último",
+    # marcadores de discurso disfarçados de adjetivo
+    "certo", "errado", "claro", "preciso", "óbvio",
+}
 
 # entidades NER do spaCy relevantes para exclusão automática de nomes próprios
 # PER = pessoa, LOC = local, ORG = organização, MISC = diversos
@@ -55,8 +97,11 @@ TERMINACOES_SUSPEITAS = ("or", "igar", "uir", "ear")
 # em comparação de raiz consegue detectá-los. Lista pequena e cumulativa:
 # adicione aqui sempre que detectar um novo erro nos dados.
 CORRECOES_LEMA = {
+    "ouçor":        "ouço",
     "peguar":       "pegar",
     "veer":         "ver",
+    "vejor":        "ver",
+    "vejo":         "ver",
     "fazir":        "fazer",
     "cresçor":      "crescer",
     "lembror":      "lembrar",
@@ -64,7 +109,30 @@ CORRECOES_LEMA = {
     "fotor":        "fotografar",
     "identifiquar": "identificar",
     "corriger":     "corrigir",
+    "corrir":       "corrigir",
     "achor":        "achar",
+    "mostror":      "mostrar",
+    "ficor":        "ficar",
+    "fiquei":       "ficar",
+    "sintar":       "sentir",
+    "percebar":     "perceber",
+    "percebi":      "perceber",
+    "compreer":     "compreender",
+    "comprer":      "comprar",
+    "compro":       "comprar",
+    "agradeçar":    "agradecer",
+    "entendi":      "entender",
+    "entendo":      "entender",
+    "puder":        "poder",
+    "diga":         "dizer",
+    "disser":       "dizer",
+    "dou":          "dar",
+    "venho":        "vir",
+    "vier":         "vir",
+    "vim":          "vir",
+    "trago":        "trazer",
+    "busco":        "buscar",
+    "saí":          "sair",
 }
 
 
@@ -81,7 +149,7 @@ def carregar_config(caminho: str) -> dict:
     default = {
         "stopwords_extras": [],
         "palavras_protegidas": [],   # nunca remover, mesmo se NER marcar como nome
-        "remover_siglas": False,     # por padrão siglas são mantidas
+        "siglas_manter": [],         # siglas que devem permanecer (ex: ONG, sigla de instituição)
         "excluir_pessoas": True,
         "excluir_locais": False,
         "excluir_organizacoes": False,
@@ -134,11 +202,23 @@ def coletar_entidades_para_excluir(docs, nlp, config: dict) -> set[str]:
         for ent in doc.ents:
             tipo_config = ENTIDADES_NER.get(ent.label_)
             if tipo_config and config.get(tipo_config, False):
-                entidades.add(ent.text.lower().strip())
+                # o span inteiro só é excluído se parecer nome próprio de
+                # fato (palavras capitalizadas). O NER em fala transcrita
+                # marca verbos comuns em minúscula como "pessoa"
+                # ("planejo", "anoto") — sem esta checagem, essas palavras
+                # sumiriam do corpus inteiro.
+                if all(t.pos_ == "PROPN" and t.text.istitle()
+                       for t in ent if t.text.isalpha()):
+                    entidades.add(ent.text.lower().strip())
                 # também adiciona cada token da entidade composta
-                # (ex: "Maria Silva" → "maria", "silva")
+                # (ex: "Maria Silva" → "maria", "silva"), mas SÓ os que o
+                # tagger confirma como nome próprio: o NER erra bastante em
+                # fala coloquial e, sem essa checagem, palavras comuns
+                # apanhadas num span errado ("páscoa", "tia", "planejo")
+                # seriam excluídas do corpus inteiro.
                 for token in ent:
-                    entidades.add(token.text.lower().strip())
+                    if token.pos_ == "PROPN":
+                        entidades.add(token.text.lower().strip())
     return entidades
 
 
@@ -167,9 +247,15 @@ def lema_seguro(token) -> str:
 # PRÉ-PROCESSAMENTO
 # ══════════════════════════════════════════════════════════════════════════════
 
+# Lemas de verbo descartados pela regra de sanidade (lema de verbo em
+# português termina em "r") — coletados para auditoria no final do pipeline.
+LEMAS_VERBO_DESCARTADOS = set()
+
+
 def preprocessar(doc, config: dict, entidades_excluir: set[str]) -> str:
     stopwords_extras = set(config.get("stopwords_extras", []))
     palavras_protegidas = set(config.get("palavras_protegidas", []))
+    siglas_manter = set(config.get("siglas_manter", []))
 
     tokens = []
     for token in doc:
@@ -193,13 +279,29 @@ def preprocessar(doc, config: dict, entidades_excluir: set[str]) -> str:
         if lema in stopwords_extras:
             continue
 
+        # palavras genéricas de qualquer tópico (curinga/avaliativas)
+        if lema in PALAVRAS_GENERICAS:
+            continue
+
+        # verbos semanticamente vazios (nao carregam conteudo relevante)
+        if token.pos_ == "VERB" and lema in VERBOS_VAZIOS:
+            continue
+
+        # sanidade: lema de verbo em português sempre termina em "r"
+        # (falar, dizer, pôr). Se não termina, a lematização falhou e a
+        # forma flexionada escaparia de todos os filtros ("entendi",
+        # "fiquei"). Descarta e registra para alimentar CORRECOES_LEMA.
+        if token.pos_ == "VERB" and not lema.endswith("r"):
+            LEMAS_VERBO_DESCARTADOS.add(lema)
+            continue
+
         # exclusão automática de nomes detectados via NER
         if lema in entidades_excluir or texto_original in entidades_excluir:
             continue
 
-        # siglas: por padrão são mantidas; só remove se remover_siglas=True na config
+        # siglas: mantém só as configuradas, descarta outras maiúsculas
         if token.text.isupper() and len(token.text) <= 5:
-            if config.get("remover_siglas", False):
+            if lema not in siglas_manter and texto_original not in siglas_manter:
                 continue
 
         tokens.append(lema)
@@ -246,6 +348,13 @@ def main():
         logging.warning(
             f"Possíveis lemas com erro de lematização (revisar manualmente): {suspeitos}\n"
             f"  Se forem erros, adicione ao dicionário CORRECOES_LEMA no topo do script."
+        )
+
+    if LEMAS_VERBO_DESCARTADOS:
+        logging.warning(
+            "Verbos com lematização falhada descartados (forma flexionada "
+            f"virou lema): {sorted(LEMAS_VERBO_DESCARTADOS)}\n"
+            "  Se algum for relevante, adicione a correção em CORRECOES_LEMA."
         )
 
     os.makedirs(os.path.dirname(OUTPUT_CSV), exist_ok=True)

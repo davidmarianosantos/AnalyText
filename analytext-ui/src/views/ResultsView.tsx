@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
-import { BarChart3, Quote, Network, Users, Download, ImageIcon } from 'lucide-react'
+import { BarChart3, Quote, Network, Users, Download, ImageIcon, Expand } from 'lucide-react'
 import { useAppStore } from '@/state/useAppStore'
+import ImageLightbox from '@/components/results/ImageLightbox'
 import type { ManifestoResultados, ArquivoResultado } from '@/types'
 
 // Apenas as 3 categorias relevantes, na ordem de exibição
@@ -10,9 +11,10 @@ const CATEGORIAS = [
   { id: 'grafo_similitude', label: 'Grafo de similitude',   icon: Network,   descricao: 'Mapa visual das relações entre os conceitos.' },
 ] as const
 
-// Card de imagem grande com download
+// Card de imagem grande com download; clique abre em tela cheia com zoom
 function ImageCard({ arquivo }: { arquivo: ArquivoResultado }) {
   const [src, setSrc] = useState<string | null>(null)
+  const [ampliada, setAmpliada] = useState(false)
 
   useEffect(() => {
     window.api.lerImagemBase64(arquivo.caminho).then((data) => { if (data) setSrc(data) })
@@ -26,14 +28,40 @@ function ImageCard({ arquivo }: { arquivo: ArquivoResultado }) {
   return (
     <div className="flex flex-col gap-3">
       <div
-        className="w-full rounded-xl overflow-hidden flex items-center justify-center"
-        style={{ background: 'var(--surface-2)', border: '1px solid var(--border-subtle)', minHeight: 320 }}
+        className="group w-full rounded-xl overflow-hidden flex items-center justify-center relative"
+        style={{
+          background: 'var(--surface-2)',
+          border: '1px solid var(--border-subtle)',
+          minHeight: 320,
+          cursor: src ? 'zoom-in' : 'default',
+        }}
+        onClick={() => src && setAmpliada(true)}
+        title={src ? 'Clique para ampliar' : undefined}
       >
         {src
-          ? <img src={src} alt={arquivo.titulo} className="w-full h-full object-contain" style={{ maxHeight: 520 }} />
+          ? (
+            <>
+              <img src={src} alt={arquivo.titulo} className="w-full h-full object-contain" style={{ maxHeight: 520 }} />
+              {/* indicação de que a imagem abre ampliada */}
+              <div
+                className="absolute top-2.5 right-2.5 flex items-center justify-center w-8 h-8 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity"
+                style={{ background: 'rgba(10, 18, 34, 0.65)', color: 'rgba(255,255,255,0.9)' }}
+              >
+                <Expand size={15} />
+              </div>
+            </>
+          )
           : <ImageIcon size={36} style={{ color: 'var(--text-disabled)' }} />
         }
       </div>
+      {ampliada && src && (
+        <ImageLightbox
+          src={src}
+          titulo={arquivo.titulo}
+          onClose={() => setAmpliada(false)}
+          onBaixar={baixar}
+        />
+      )}
       <div className="flex items-center justify-between px-1">
         <p className="text-[13px] font-medium" style={{ color: 'var(--text-secondary)' }}>{arquivo.titulo}</p>
         <button
