@@ -8,20 +8,28 @@ import { app } from 'electron'
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 /**
- * Resolve o executável Python a usar.
+ * Resolve o executável Python a usar, nesta ordem:
  *
- * Em desenvolvimento, usa o Python do sistema/venv (configurável via env var
- * ANALYTEXT_PYTHON). Em produção (build empacotado), usa o Python Embeddable
- * que é distribuído dentro de resources/python — o usuário final não precisa
- * instalar nada.
+ *  1. env var ANALYTEXT_PYTHON (override manual, vale em dev e produção);
+ *  2. produção (build empacotado): o Python Embeddable distribuído em
+ *     resources/python — o usuário final não precisa instalar nada;
+ *  3. desenvolvimento: o MESMO Python embutido, se resources/python já
+ *     tiver sido montado (scripts/setup-python-embutido.ps1) — assim o dev
+ *     roda idêntico à produção;
+ *  4. fallback: o Python do sistema (PATH).
  */
 function resolverPython(): string {
   if (process.env.ANALYTEXT_PYTHON) return process.env.ANALYTEXT_PYTHON
 
+  const exe = process.platform === 'win32' ? 'python.exe' : 'bin/python3'
+
   if (app.isPackaged) {
-    const exe = process.platform === 'win32' ? 'python.exe' : 'bin/python3'
     return path.join(process.resourcesPath, 'python', exe)
   }
+
+  const embutidoDev = path.join(app.getAppPath(), 'resources', 'python', exe)
+  if (fs.existsSync(embutidoDev)) return embutidoDev
+
   return process.platform === 'win32' ? 'python' : 'python3'
 }
 

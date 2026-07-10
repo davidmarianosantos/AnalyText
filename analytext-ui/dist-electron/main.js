@@ -76,10 +76,12 @@ function touchProject(id) {
 const __dirname$2 = path.dirname(fileURLToPath(import.meta.url));
 function resolverPython() {
   if (process.env.ANALYTEXT_PYTHON) return process.env.ANALYTEXT_PYTHON;
+  const exe = process.platform === "win32" ? "python.exe" : "bin/python3";
   if (app.isPackaged) {
-    const exe = process.platform === "win32" ? "python.exe" : "bin/python3";
     return path.join(process.resourcesPath, "python", exe);
   }
+  const embutidoDev = path.join(app.getAppPath(), "resources", "python", exe);
+  if (fs.existsSync(embutidoDev)) return embutidoDev;
   return process.platform === "win32" ? "python" : "python3";
 }
 function resolverScriptsDir() {
