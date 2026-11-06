@@ -13,7 +13,6 @@ Pré-processamento de linguagem natural, detecção de padrões e grafos de simi
 ![Electron](https://img.shields.io/badge/Electron-30-47848F?logo=electron&logoColor=white)
 ![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=black)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)
-![IRaMuTeQ](https://img.shields.io/badge/inspirado_no-IRaMuTeQ-6706CE)
 
 [O que faz](#o-que-a-ferramenta-faz) · [Arquitetura](#arquitetura) · [Como rodar](#como-rodar-desenvolvimento) · [Python embutido](#python-embutido-distribuição) · [Privacidade](#privacidade) · [Créditos](#créditos)
 
