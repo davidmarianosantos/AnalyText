@@ -1,4 +1,25 @@
+<div align="center">
+
+<img src="analytext-ui/public/logo.png" alt="AnalyText" width="104">
+
 # AnalyText
+
+**Análise qualitativa de entrevistas com apoio de inteligência artificial**
+
+Pré-processamento de linguagem natural, detecção de padrões e grafos de similitude que revelam os campos de significado das falas
+
+![Python](https://img.shields.io/badge/Python-3.9-3776AB?logo=python&logoColor=white)
+![spaCy](https://img.shields.io/badge/spaCy-pt__core__news__lg-09A3D5?logo=spacy&logoColor=white)
+![Electron](https://img.shields.io/badge/Electron-30-47848F?logo=electron&logoColor=white)
+![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=black)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)
+![IRaMuTeQ](https://img.shields.io/badge/inspirado_no-IRaMuTeQ-6706CE)
+
+[O que faz](#o-que-a-ferramenta-faz) · [Arquitetura](#arquitetura) · [Como rodar](#como-rodar-desenvolvimento) · [Python embutido](#python-embutido-distribuição) · [Privacidade](#privacidade) · [Créditos](#créditos)
+
+</div>
+
+## Sobre
 
 Ferramenta de apoio à **análise qualitativa de entrevistas**, desenvolvida no
 **Projeto Extensionista Integrador III (DEC001430)** do curso de Ciência da
@@ -12,11 +33,6 @@ usa processamento de linguagem natural para organizar, tratar e analisar as
 transcrições das entrevistas, tornando a análise mais sistemática e acessível
 para pesquisadores da área de educação — sem exigir qualquer conhecimento de
 programação.
-
-**Discente:** David Júnio Mariano dos Santos
-**Orientadora:** Prof.ª Verônica Alves
-
----
 
 ## O que a ferramenta faz
 
@@ -103,8 +119,8 @@ npm install
 npm run dev
 ```
 
-Em desenvolvimento, a UI usa o Python do sistema (`python` no PATH). No app
-empacotado, usa o Python embutido.
+Em desenvolvimento, a UI usa o Python embutido de `resources/python/` se ele
+existir; caso contrário, cai no Python do sistema (`python` no PATH).
 
 ## Python embutido (distribuição)
 

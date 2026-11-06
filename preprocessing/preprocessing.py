@@ -74,7 +74,7 @@ PALAVRAS_GENERICAS = {
     "coisa", "coisinha", "gente", "pessoa", "pessoal", "negócio",
     "troço", "exemplo", "vez", "jeito", "maneira", "tipo", "parte",
     "lado", "meio", "resto", "monte", "tanto", "pouquinho",
-    "verdade", "mentira", "fato",
+    "verdade", "mentira", "fato","dia","ano",
     # adjetivos avaliativos / tamanho genérico
     "bom", "ruim", "legal", "ótimo", "péssimo", "maravilhoso",
     "perfeito", "lindo", "bonito", "bonitinho", "feio", "bacana",
