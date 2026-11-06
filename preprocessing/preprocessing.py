@@ -2,7 +2,7 @@
 preprocessing.py
 =================
 Módulo 1 – Pré-processamento de entrevistas para análise qualitativa
-Projeto Extensionista Integrador III – UESC 2026.1
+Universidade Estadual de Santa Cruz (UESC) – 2026.1
 Discente: David Júnio Mariano dos Santos
 
 Genérico para qualquer arquivo de entrevista no formato:

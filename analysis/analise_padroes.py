@@ -2,7 +2,7 @@
 analise_padroes.py
 ==================
 Módulo 2 – Identificação de padrões e frequência de termos
-Projeto Extensionista Integrador III – UESC 2026.1
+Universidade Estadual de Santa Cruz (UESC) – 2026.1
 Discente: David Júnio Mariano dos Santos
 
 Pré-requisito: rodar primeiro o script de pré-processamento,

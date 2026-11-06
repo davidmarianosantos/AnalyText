@@ -2,7 +2,7 @@
 grafo_similitude.py
 ===================
 Módulo 4 – Grafo de similitude e campos de significado
-Projeto Extensionista Integrador III – UESC 2026.1
+Universidade Estadual de Santa Cruz (UESC) – 2026.1
 Discente: David Júnio Mariano dos Santos
 
 Gera, por entrevistado, um grafo de similitude estilo IRaMuTeQ cujo foco

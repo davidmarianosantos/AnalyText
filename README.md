@@ -21,9 +21,8 @@ Pré-processamento de linguagem natural, detecção de padrões e grafos de simi
 ## Sobre
 
 Ferramenta de apoio à **análise qualitativa de entrevistas**, desenvolvida no
-**Projeto Extensionista Integrador III (DEC001430)** do curso de Ciência da
-Computação da **Universidade Estadual de Santa Cruz (UESC)**, semestre 2026.1,
-sob orientação da **Prof.ª Verônica Alves**.
+curso de Ciência da Computação da **Universidade Estadual de Santa Cruz
+(UESC)**, sob orientação da **Prof.ª Verônica Alves**.
 
 O projeto integra uma pesquisa etnográfica realizada em uma unidade escolar de
 Ilhéus (BA) sobre os sentidos e significados construídos por professoras
@@ -155,4 +154,4 @@ pré-processamento remove automaticamente nomes de pessoas detectados nas falas
 
 - **David Júnio Mariano dos Santos** — desenvolvimento (Ciência da Computação, UESC)
 - **Prof.ª Verônica Alves** — orientação e pesquisa em alfabetização
-- Projeto Extensionista Integrador III · DEC/UESC · 2026.1
+- Universidade Estadual de Santa Cruz (UESC) · 2026.1
